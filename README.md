@@ -1,7 +1,7 @@
 # `Creature Manager` — a DM tool for D&D
 
 This project is a web application that helps the DM manage creatures during D&D encounters.
-It is built with [AngularJS][angularjs] but doesn't require a server to run as. It is currently a work in progress with many new features planned. 
+It is built with [AngularJS][angularjs] but doesn't require a server to run. It is currently a work in progress with many new features planned. 
 
 ## Getting Started
 
