@@ -37,6 +37,11 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
       });
     };
 
+    $scope.addSeparator = function() {
+      var separator = { name: "", health: "", damage: "", initiative: "", AC: "", tag: "hide" };
+      $scope.creatures.push(separator);
+    }
+
     $scope.remove = function (index) {
       $scope.creatures.splice(index, 1);
     }

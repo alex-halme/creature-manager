@@ -1,6 +1,7 @@
 <div class="centered">
   <button type="button" class="margin btn btn-success btn-lg" data-toggle="modal" data-target="#addCreature">Add Creature</button>
   <button type="button" class="margin btn btn-success btn-lg" ng-click="createCustom()">Add Custom Creature</button>
+  <button type="button" class="margin btn btn-success btn-lg" ng-click="addSeparator()">Add Separator</button>
 </div>
 
 <div>
@@ -27,7 +28,7 @@
         </td>
         <td class="centered">
           <span ng-if="creature.health > 0" style="color: green;">{{creature.health}}</span>
-          <span ng-if="creature.health <= 0" style="color: red;">DEAD</span>
+          <span ng-if='(creature.health <= 0) && (creature.health != "")' style="color: red;">DEAD</span>
         </td>
         <td class="centered">
           {{creature.damage}}
@@ -39,27 +40,27 @@
           {{creature.AC}}
         </td>
         <td class="centered">
-          <button type="button" class="margin btn btn-link btn-lg" ng-click="attack(creature)">
+          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="attack(creature)">
               <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
           </button>
         </td>
         <td class="centered">
-          <button type="button" class="margin btn btn-link btn-lg" ng-click="edit($index, creature)">
+          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="edit($index, creature)">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
           </button>
         </td>
         <td class="centered">
-          <button type="button" class="margin btn btn-link btn-lg" ng-click="">
+          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="">
               <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
           </button>
         </td>
         <td class="centered">
-          <button type="button" class="margin btn btn-link btn-lg" ng-click="remove($index)">
+          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="remove($index)">
               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </button>
         </td>
         <td class="centered">
-          <button type="button" class="margin btn btn-link btn-lg" ng-click="duplicate($index)">
+          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="duplicate($index)">
               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
           </button>
         </td>
