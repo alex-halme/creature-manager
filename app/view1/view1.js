@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('myApp.view1', ['ngRoute'])
+var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/view1', {
@@ -15,6 +15,10 @@ var app = angular.module('myApp.view1', ['ngRoute'])
       // { name: 'Dummy Demon', health: 123, damage: 234, initiative: 15, AC: 15 },
       // { name: 'Another One', health: 345, damage: 456, initiative: 7, AC: 12 }
     ];
+
+    $scope.sortableOptions = {
+      'ui-floating': true
+    };
 
     $scope.createCustom = function () {
       // open dialog
@@ -137,13 +141,16 @@ angular.module('myApp.view1').controller('CustomCreatureDialogController', funct
   }
 
   $ctrl.isCreatureValid = function () {
-    if (!$ctrl.creatureName || !$ctrl.creatureHealth || !$ctrl.creatureDamage || !$ctrl.creatureInitiative || !$ctrl.creatureAC) {
+    if (!$ctrl.creatureName) {
       return false;
-    } else if (isNaN($ctrl.creatureHealth) || ($ctrl.creatureInitiative <= 0 || $ctrl.creatureInitiative > 20)) {
+    } 
+
+    if ($ctrl.creatureInitiative && ($ctrl.creatureInitiative <= 0 || $ctrl.creatureInitiative > 20)) {
       return false;
-    } else if ($ctrl.creatureAC <= 0 || $ctrl.creatureAC > 20) {
+    } else if ($ctrl.creatureAC && ($ctrl.creatureAC <= 0 || $ctrl.creatureAC > 20)) {
       return false;
     }
+
     return true;
   }
 
@@ -166,16 +173,17 @@ angular.module('myApp.view1').controller('EditDialogController', function ($uibM
   }
 
   $ctrl.isEditValid = function () {
-    if (!$ctrl.creature.name && !$ctrl.creature.health && !$ctrl.creature.damage && !$ctrl.creature.initiative) {
+
+    if (!$ctrl.creature.name) {
       return false;
-    } else if (isNaN($ctrl.creature.health) || isNaN($ctrl.creature.initiative)) {
+    } 
+
+    if ($ctrl.creature.initiative && ($ctrl.creature.initiative <= 0 || $ctrl.creature.initiative > 20)) {
       return false;
-    } else if ($ctrl.creature.initiative <= 0 || $ctrl.creature.initiative > 20) {
-      return false;
-    } else if ($ctrl.creature.AC <= 0 || $ctrl.creature.AC > 20) {
+    } else if ($ctrl.creature.AC && ($ctrl.creature.AC <= 0 || $ctrl.creature.AC > 20)) {
       return false;
     }
+
     return true;
   }
 });
-
