@@ -14,6 +14,10 @@ You need git to clone the `creature-manager` repository. You can get git from [h
 We also use a number of Node.js tools to initialize and test `creature-manager`. You must have Node.js
 and its package manager (npm) installed. You can get them from [here][node].
 
+## Image
+
+![Screenshot of the app running](https://i.imgur.com/xtBH5Yi.png)
+
 [angularjs]: https://angularjs.org/
 [git]: https://git-scm.com/
 [node]: https://nodejs.org/
