@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "creature-manager",
   "private": true,
-  "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "version": "0.1.0",
+  "description": "An app for managing creatures",
+  "repository": "http://http://erolon.io/apps/creature-manager/app/",
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.7.7",

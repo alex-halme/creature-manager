@@ -50,7 +50,7 @@
           </button>
         </td>
         <td class="centered">
-          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="">
+          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="info(creature)">
               <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
           </button>
         </td>
@@ -115,6 +115,49 @@
 
 <!-- Edit creature modal -->
 <script type="text/ng-template" id="edit-modal.html">
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>
+    <h4 class="modal-title">Edit Creature</h4>
+  </div>
+
+  <div class="modal-body">
+    <div class="input-group">
+      <span class="input-group-addon">Name</span>
+      <input type="text" class="form-control" placeholder="The creature's new name" ng-model="$ctrl.creature.name">
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">Health</span>
+      <input type="text" class="form-control" placeholder="The creature's new health" ng-model="$ctrl.creature.health">
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">Damage</span>
+      <input type="text" class="form-control" placeholder="The creature's new damage" ng-model="$ctrl.creature.damage">
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">Initiative</span>
+      <input type="text" class="form-control" placeholder="The creature's new initiative" ng-model="$ctrl.creature.initiative">
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">AC</span>
+      <input type="text" class="form-control" placeholder="The creature's new armour class" ng-model="$ctrl.creature.AC">
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="$ctrl.save()" ng-disabled="!$ctrl.isEditValid()">Save</button>
+    <button type="button" class="btn btn-warning" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
+
+</script>
+
+<!-- Make more awesome later -->
+<script type="text/ng-template" id="info-modal.html">
 
   <div class="modal-header">
     <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>

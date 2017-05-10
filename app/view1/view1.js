@@ -37,6 +37,19 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
       });
     };
 
+    $scope.info = function () {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'info-modal.html',
+        controller: 'InfoDialogController',
+        controllerAs: '$ctrl'
+      });
+
+      modalInstance.result.then(function (creature) {
+        console.log("Exited info modal");
+      });
+    }
+
     $scope.addSeparator = function() {
       var separator = { name: "", health: "", damage: "", initiative: "", AC: "", tag: "hide" };
       $scope.creatures.push(separator);
