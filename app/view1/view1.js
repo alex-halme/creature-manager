@@ -37,12 +37,17 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
       });
     };
 
-    $scope.info = function () {
+    $scope.info = function (creature) {
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'info-modal.html',
         controller: 'InfoDialogController',
-        controllerAs: '$ctrl'
+        controllerAs: '$ctrl',
+        resolve: {
+          creature: function () {
+            return creature;
+          }
+        }
       });
 
       modalInstance.result.then(function (creature) {
@@ -204,4 +209,14 @@ angular.module('myApp.view1').controller('EditDialogController', function ($uibM
 
     return true;
   }
+});
+
+angular.module('myApp.view1').controller('InfoDialogController', function ($uibModalInstance, creature) {
+  var $ctrl = this;
+  $ctrl.creature = creature;
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.close();
+  };
+
 });
