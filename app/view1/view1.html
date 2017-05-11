@@ -1,5 +1,5 @@
 <div class="centered">
-  <button type="button" class="margin btn btn-success btn-lg" data-toggle="modal" data-target="#addCreature">Add Creature</button>
+  <button type="button" class="margin btn btn-success btn-lg" ng-click="addCreature()">Add Creature</button>
   <button type="button" class="margin btn btn-success btn-lg" ng-click="createCustom()">Add Custom Creature</button>
   <button type="button" class="margin btn btn-success btn-lg" ng-click="addSeparator()">Add Separator</button>
 </div>
@@ -22,13 +22,13 @@
     </thead>
     <tbody ui-sortable="sortableOptions" ng-model="creatures">
 
-      <tr style="height: 50px;" ng-repeat="creature in creatures">
+      <tr style="height: 50px;" ng-repeat="creature in creatures track by $index">
         <td class="centered">
           {{creature.name}}
         </td>
         <td class="centered">
           <span ng-if="creature.health > 0" style="color: green;">{{creature.health}}</span>
-          <span ng-if='(creature.health <= 0) && (creature.health != "")' style="color: red;">DEAD</span>
+          <span ng-if='!(creature.health > 0)' style="color: red;">DEAD</span>
         </td>
         <td class="centered">
           {{creature.damage}}
@@ -174,6 +174,50 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-success" ng-click="$ctrl.cancel()">Close</button>
+  </div>
+
+</script>
+
+<script type="text/ng-template" id="creature-creation-modal.html">
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>
+    <h4 class="modal-title">Add Creature</h4>
+  </div>
+
+  <div class="modal-body">
+    <div class="input-group">
+      <span class="input-group-addon">Creature</span>
+      <input type="text" class="form-control" placeholder="The creature's name" ng-model="$ctrl.creatureName">
+    </div>
+
+    <div style='margin-top: 4px' class="centered">
+      <button type="button" class="margin btn btn-success btn-lg" ng-disabled="!$ctrl.canCreatureBeAdded()" ng-click="$ctrl.addCreature()">Add</button>
+    </div>
+
+    <table style='margin-top: 4px'>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Amount</th>
+          <th>Challenge</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr style="height: 50px" ng-repeat="creature in $ctrl.creatures">
+          <td class="centered">{{creature.name}}</td>
+          <td class="centered">{{$ctrl.amountOf(creature)}}</td>
+          <td class="centered">{{creature.challenge}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="$ctrl.confirm()" ng-disabled="!$ctrl.canConfirm()">Confirm</button>
+    <button type="button" class="btn btn-warning" ng-click="$ctrl.cancel()">Cancel</button>
   </div>
 
 </script>

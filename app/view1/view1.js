@@ -16,6 +16,10 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
       // { name: 'Another One', health: 345, damage: 456, initiative: 7, AC: 12 }
     ];
 
+    $scope.gameCreatures = [
+      { name: 'Orc', health: '12', damage: '1d8', initative: '', AC: 13, challenge: '1/2' }
+    ];
+
     $scope.sortableOptions = {
       'ui-floating': true
     };
@@ -37,6 +41,29 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
       });
     };
 
+    $scope.addCreature = function () {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'creature-creation-modal.html',
+        controller: 'NewCreatureDialogController',
+        controllerAs: '$ctrl',
+        resolve: {
+          gameCreatures: function () {
+            return $scope.gameCreatures;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (creatures) {
+        for (var i = 0; i < creatures.length; i++) {
+          $scope.creatures.push(creatures[i]);
+        }
+        console.log('Creature(s) added');
+      }, function () {
+        console.log('Creation cancelled');
+      });
+    }
+
     $scope.info = function (creature) {
       var modalInstance = $uibModal.open({
         animation: true,
@@ -55,7 +82,7 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
       });
     }
 
-    $scope.addSeparator = function() {
+    $scope.addSeparator = function () {
       var separator = { name: "", health: "", damage: "", initiative: "", AC: "", tag: "hide" };
       $scope.creatures.push(separator);
     }
@@ -147,6 +174,7 @@ angular.module('myApp.view1').controller('AttackDialogController', function ($ui
 
   $ctrl.attack = function () {
     $ctrl.creature.health = $ctrl.healthAfterAttack();
+    console.log($ctrl.creature.health);
     $uibModalInstance.close();
   };
 
@@ -159,14 +187,14 @@ angular.module('myApp.view1').controller('CustomCreatureDialogController', funct
   var $ctrl = this;
 
   $ctrl.create = function () {
-    var newCreature = { name: $ctrl.creatureName, health: $ctrl.creatureHealth, damage: $ctrl.creatureDamage, initiative: $ctrl.creatureInitiative, AC: $ctrl.creatureAC};
+    var newCreature = { name: $ctrl.creatureName, health: $ctrl.creatureHealth, damage: $ctrl.creatureDamage, initiative: $ctrl.creatureInitiative, AC: $ctrl.creatureAC };
     $uibModalInstance.close(newCreature);
   }
 
   $ctrl.isCreatureValid = function () {
     if (!$ctrl.creatureName) {
       return false;
-    } 
+    }
 
     if ($ctrl.creatureInitiative && ($ctrl.creatureInitiative <= 0 || $ctrl.creatureInitiative > 20)) {
       return false;
@@ -199,7 +227,7 @@ angular.module('myApp.view1').controller('EditDialogController', function ($uibM
 
     if (!$ctrl.creature.name) {
       return false;
-    } 
+    }
 
     if ($ctrl.creature.initiative && ($ctrl.creature.initiative <= 0 || $ctrl.creature.initiative > 20)) {
       return false;
@@ -219,4 +247,74 @@ angular.module('myApp.view1').controller('InfoDialogController', function ($uibM
     $uibModalInstance.close();
   };
 
+});
+
+angular.module('myApp.view1').controller('NewCreatureDialogController', function ($uibModalInstance, gameCreatures) {
+  var $ctrl = this;
+  $ctrl.creatures = [];
+
+  $ctrl.canCreatureBeAdded = function () {
+    var name = $ctrl.creatureName;
+    for (var i = 0; i < gameCreatures.length; i++) {
+      if (gameCreatures[i].name === name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  $ctrl.addCreature = function () {
+    var name = $ctrl.creatureName;
+    for (var i = 0; i < gameCreatures.length; i++) {
+      if (gameCreatures[i].name === name) {
+
+        var creature = angular.copy(gameCreatures[i]);
+
+        var realCreature;
+        for (var i = 0; i < $ctrl.creatures.length; i++) {
+          realCreature = $ctrl.creatures[i];
+        }
+
+        if (realCreature === undefined) {
+          creature.amount = 1;
+          $ctrl.creatures.push(creature);
+        } else {
+          realCreature.amount += 1;
+        }
+
+        return;
+      }
+    }
+  }
+
+  $ctrl.amountOf = function (creature) {
+    for (var i = 0; i < $ctrl.creatures.length; i++) {
+      if ($ctrl.creatures[i].name === creature.name) {
+        return $ctrl.creatures[i].amount;
+      }
+    }
+    return -1;
+  }
+
+  $ctrl.canConfirm = function () {
+    if ($ctrl.creatures.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  $ctrl.confirm = function () {
+    var finalCreatures = angular.copy($ctrl.creatures);
+    for (var i = 0; i < $ctrl.creatures.length; i++) {
+      for (var x = 0; x < $ctrl.creatures[i].amount - 1; x++) {
+        finalCreatures.push($ctrl.creatures[i]);
+      }
+      delete finalCreatures[i].amount;
+    }
+    $uibModalInstance.close(finalCreatures);
+  }
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 });
