@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
+var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete-alt'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/view1', {
@@ -220,7 +220,6 @@ angular.module('myApp.view1').controller('EditDialogController', function ($uibM
 
   $ctrl.save = function () {
     $uibModalInstance.close(creature);
-    // $uibModalInstance.close(name, health, damage, initiative);
   }
 
   $ctrl.isEditValid = function () {
@@ -259,6 +258,7 @@ angular.module('myApp.view1').controller('InfoDialogController', function ($uibM
 angular.module('myApp.view1').controller('NewCreatureDialogController', function ($uibModalInstance, gameCreatures) {
   var $ctrl = this;
   $ctrl.creatures = [];
+  $ctrl.gameCreatures = gameCreatures;
 
   $ctrl.canCreatureBeAdded = function () {
     var name = $ctrl.creatureName;
@@ -270,8 +270,8 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
     return false;
   }
 
-  $ctrl.addCreature = function () {
-    var name = $ctrl.creatureName;
+  $ctrl.selectedCreature = function (selected) {
+    var name = selected.title;
     for (var i = 0; i < gameCreatures.length; i++) {
       if (gameCreatures[i].name === name) {
 
@@ -291,7 +291,7 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
 
         return;
       }
-    }
+    }    
   }
 
   $ctrl.amountOf = function (creature) {

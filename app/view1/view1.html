@@ -193,14 +193,14 @@
   <div class="modal-body">
     <div class="input-group">
       <span class="input-group-addon">Creature</span>
-      <input type="text" class="form-control" placeholder="The creature's name" ng-model="$ctrl.creatureName">
+      <!--<input type="text" class="form-control" placeholder="The creature's name" ng-model="$ctrl.creatureName">-->
+      <div angucomplete-alt placeholder="The creature's name" maxlength="50" pause="100" selected-object="$ctrl.selectedCreature"
+        local-data="$ctrl.gameCreatures" search-fields="name" title-field="name" minlength="1" input-class="input form-control"
+        match-class="highlight" clear-selected="true">
+      </div>
     </div>
 
-    <div style='margin-top: 4px' class="centered">
-      <button type="button" class="margin btn btn-success btn-lg" ng-disabled="!$ctrl.canCreatureBeAdded()" ng-click="$ctrl.addCreature()">Add</button>
-    </div>
-
-    <table style='margin-top: 4px'>
+    <table style='margin-top: 16px'>
       <thead>
         <tr>
           <th>Name</th>
@@ -259,6 +259,12 @@
 </html>
 
 <style>
+  .angucomplete-dropdown {
+    top: 40px;
+    overflow-y: auto;
+    max-height: 200px;
+  }
+
   .centered {
     text-align: center;
     margin: auto;
