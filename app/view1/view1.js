@@ -17,7 +17,7 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete
     ];
 
     $scope.gameCreatures = [
-      // { name: 'Orc', health: '12', healthDice: '2d6', damage: '1d8', initative: '', AC: 13, challenge: '1/2' },
+      { name: 'Orc', health: '12', healthDice: '2d6', damage: '1d8', initative: '', AC: 13, challenge: '1/2' },
 
       { name: 'Goblin', description: 'Small humanoid (goblinoid)', 
         alignment: 'neutral evil', ACEquipment: 'leather armor, shield', AC: 15, health: '7', healthDice: '2d6', 
