@@ -17,8 +17,17 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete
     ];
 
     $scope.gameCreatures = [
-      { name: 'Orc', health: '12', healthDice: '2d6', damage: '1d8', initative: '', AC: 13, challenge: '1/2' },
-      { name: 'Goblin', health: '9', healthDice: '2d4 + 1', damage: '1d6', initative: '', AC: 15, challenge: '1/2' }
+      // { name: 'Orc', health: '12', healthDice: '2d6', damage: '1d8', initative: '', AC: 13, challenge: '1/2' },
+
+      { name: 'Goblin', description: 'Small humanoid (goblinoid)', 
+        alignment: 'neutral evil', ACEquipment: 'leather armor, shield', AC: 15, health: '7', healthDice: '2d6', 
+        speed: '30 ft.', stats: [ '8 (-1)', '14 (+2)', '10 (+0)', '10 (+0)', '8 (-1)', '8 (-1)' ],
+        skills: 'Stealth +6', senses: 'darkvision 60ft., passive Perception 9', languages: 'Common, Goblin', challenge: '1/4', xp: '50',
+        abilities: [{ title: 'Nimble Escape.', content: 'The Goblin can take the Disengage or Hide action as a bonus action on each of its turns.'}],
+        actions: [{ title: 'Scimitar.', type: 'Melee Weapon Attack', descr: '+4 to hit, reach 5 ft., one target.', damage: 'Hit: 5 (1d6 + 2) slashing damage.'}, 
+        {title: 'Shortbow.', type: 'Ranged Weapon Attack', descr: '+4 to hit, range 80/320 ft., one target.', damage: 'Hit: 5 (1d6 + 2) piercing damage.'}]
+      }
+      //  damage: '1d6', initative: '', challenge: '1/2' }
     ];
 
     $scope.sortableOptions = {
@@ -263,6 +272,8 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
   var $ctrl = this;
   $ctrl.creatures = [];
   $ctrl.gameCreatures = gameCreatures;
+
+  console.log(gameCreatures[1].stats);
 
   $ctrl.duplicate = function (index, creature) {
     var modalInstance = $uibModal.open({

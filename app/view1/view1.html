@@ -161,20 +161,39 @@
 
   <div class="modal-header">
     <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>
-    <h4 class="modal-title">Info for {{$ctrl.creature.name}}</h4>
+    <h4 class="modal-title">Info</h4>
   </div>
 
   <div class="modal-body">
-    <p>
-      <b>Name: </b>{{$ctrl.creature.name}}<br/>
-      <b>Health: </b>{{$ctrl.creature.health}}<br/>
-      <b>Damage: </b>{{$ctrl.creature.damage}}<br/>
-      <b>Initiative: </b>{{$ctrl.creature.initiative}}<br/>
-      <b>AC: </b>{{$ctrl.creature.AC}}<br/>
-    </p>
-    <p ng-if="$ctrl.hasHealthDice()">
-      <span ng-if="$ctrl.hasHealthDice()"><b>Health dice: </b>{{$ctrl.creature.healthDice}}</span><br/>
-    </p>
+    <h4>{{$ctrl.creature.name}}</h4>
+    <i>{{$ctrl.creature.description}}, {{$ctrl.creature.alignment}}</i>
+    <hr/>
+    <b>Armor Class</b> {{$ctrl.creature.AC}} ({{$ctrl.creature.ACEquipment}})<br/>
+    <b>Hit Points</b> {{$ctrl.creature.health}} ({{$ctrl.creature.healthDice}})<br/>
+    <b>Speed</b> {{$ctrl.creature.speed}}
+    <hr/>
+    <table id="infoTable">
+      <thead>
+        <tr>
+          <th>STR</th>
+          <th>DEX</th>
+          <th>CON</th>
+          <th>INT</th>
+          <th>WIS</th>
+          <th>CHA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="centered">{{$ctrl.creature.stats[0]}}</td>
+          <td class="centered">{{$ctrl.creature.stats[1]}}</td>
+          <td class="centered">{{$ctrl.creature.stats[2]}}</td>
+          <td class="centered">{{$ctrl.creature.stats[3]}}</td>
+          <td class="centered">{{$ctrl.creature.stats[4]}}</td>
+          <td class="centered">{{$ctrl.creature.stats[5]}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="modal-footer">
@@ -296,6 +315,16 @@
 </html>
 
 <style>
+
+  h4 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  hr {
+    margin: 4px;
+  }
+
   .angucomplete-dropdown {
     top: 40px;
     overflow-y: auto;
