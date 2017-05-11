@@ -206,6 +206,8 @@
           <th>Name</th>
           <th>Amount</th>
           <th>Challenge</th>
+          <th>Duplicate</th>
+          <th>Duplicate Once</th>
         </tr>
       </thead>
 
@@ -214,6 +216,16 @@
           <td class="centered">{{creature.name}}</td>
           <td class="centered">{{$ctrl.amountOf(creature)}}</td>
           <td class="centered">{{creature.challenge}}</td>
+          <td class="centered">
+            <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="duplicate($index)">
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            </button>
+          </td>
+          <td class="centered">
+            <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="duplicate($index)">
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>

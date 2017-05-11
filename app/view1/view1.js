@@ -17,7 +17,8 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete
     ];
 
     $scope.gameCreatures = [
-      { name: 'Orc', health: '12', healthDice: '2d6', damage: '1d8', initative: '', AC: 13, challenge: '1/2' }
+      { name: 'Orc', health: '12', healthDice: '2d6', damage: '1d8', initative: '', AC: 13, challenge: '1/2' },
+      { name: 'Goblin', health: '9', healthDice: '2d4 + 1', damage: '1d6', initative: '', AC: 15, challenge: '1/2' }
     ];
 
     $scope.sortableOptions = {
@@ -260,6 +261,10 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
   $ctrl.creatures = [];
   $ctrl.gameCreatures = gameCreatures;
 
+  $ctrl.duplicate = function (index) {
+
+  }
+
   $ctrl.canCreatureBeAdded = function () {
     var name = $ctrl.creatureName;
     for (var i = 0; i < gameCreatures.length; i++) {
@@ -273,13 +278,16 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
   $ctrl.selectedCreature = function (selected) {
     var name = selected.title;
     for (var i = 0; i < gameCreatures.length; i++) {
+
       if (gameCreatures[i].name === name) {
-
+        console.log(gameCreatures[i].name + " - " + name);
         var creature = angular.copy(gameCreatures[i]);
-
         var realCreature;
+
         for (var i = 0; i < $ctrl.creatures.length; i++) {
-          realCreature = $ctrl.creatures[i];
+          if ($ctrl.creatures[i].name === name) {
+            realCreature = $ctrl.creatures[i];
+          }
         }
 
         if (realCreature === undefined) {
@@ -291,7 +299,7 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
 
         return;
       }
-    }    
+    }
   }
 
   $ctrl.amountOf = function (creature) {
@@ -314,10 +322,18 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
     var finalCreatures = angular.copy($ctrl.creatures);
     for (var i = 0; i < $ctrl.creatures.length; i++) {
       for (var x = 0; x < $ctrl.creatures[i].amount - 1; x++) {
+        console.log($ctrl.creatures[i]);
         finalCreatures.push($ctrl.creatures[i]);
       }
       delete finalCreatures[i].amount;
     }
+
+    finalCreatures.sort(function (a, b) { // alphabetical sort
+      var textA = a.name.toUpperCase();
+      var textB = b.name.toUpperCase();
+      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
+    
     $uibModalInstance.close(finalCreatures);
   }
 
