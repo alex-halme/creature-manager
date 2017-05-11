@@ -5,7 +5,7 @@
 </div>
 
 <div>
-  <table>
+  <table ng-if="creatures.length > 0">
     <thead>
       <tr>
         <th>Name</th>
@@ -28,7 +28,7 @@
         </td>
         <td class="centered">
           <span ng-if="creature.health > 0" style="color: green;">{{creature.health}}</span>
-          <span ng-if='!(creature.health > 0)' style="color: red;">DEAD</span>
+          <span ng-if='!(creature.health > 0) && creature.tag != "hide"' style="color: red;">DEAD</span>
         </td>
         <td class="centered">
           {{creature.damage}}
@@ -200,7 +200,7 @@
       </div>
     </div>
 
-    <table style='margin-top: 16px'>
+    <table style='margin-top: 16px' ng-if="$ctrl.creatures.length > 0">
       <thead>
         <tr>
           <th>Name</th>
