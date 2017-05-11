@@ -17,7 +17,7 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable'])
     ];
 
     $scope.gameCreatures = [
-      { name: 'Orc', health: '12', damage: '1d8', initative: '', AC: 13, challenge: '1/2' }
+      { name: 'Orc', health: '12', healthDice: '2d6', damage: '1d8', initative: '', AC: 13, challenge: '1/2' }
     ];
 
     $scope.sortableOptions = {
@@ -246,6 +246,13 @@ angular.module('myApp.view1').controller('InfoDialogController', function ($uibM
   $ctrl.cancel = function () {
     $uibModalInstance.close();
   };
+
+  $ctrl.hasHealthDice = function () {
+    if ($ctrl.creature.healthDice === undefined) {
+      return false;
+    }
+    return true;
+  }
 
 });
 
