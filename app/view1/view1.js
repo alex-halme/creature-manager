@@ -128,7 +128,7 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete
       });
     };
 
-    $scope.attack = function (creature) {
+    $scope.attack = function (index, creature) {
       // open dialog
       var modalInstance = $uibModal.open({
         animation: true,
@@ -142,7 +142,8 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete
         }
       });
 
-      modalInstance.result.then(function () {
+      modalInstance.result.then(function (updatedCreature) {
+        $scope.creatures[index] = updatedCreature;
         console.log('Attack completed');
       }, function () {
         console.log('Attack cancelled');
@@ -155,7 +156,7 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete
 angular.module('myApp.view1').controller('AttackDialogController', function ($uibModalInstance, creat) {
   var $ctrl = this;
 
-  $ctrl.creature = creat;
+  $ctrl.creature = angular.copy(creat);
   $ctrl.attackDamage = null;
 
   $ctrl.attackEnabled = function () {
@@ -178,8 +179,7 @@ angular.module('myApp.view1').controller('AttackDialogController', function ($ui
 
   $ctrl.attack = function () {
     $ctrl.creature.health = $ctrl.healthAfterAttack();
-    console.log($ctrl.creature.health);
-    $uibModalInstance.close();
+    $uibModalInstance.close($ctrl.creature);
   };
 
   $ctrl.cancel = function () {

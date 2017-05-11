@@ -40,7 +40,7 @@
           {{creature.AC}}
         </td>
         <td class="centered">
-          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="attack(creature)">
+          <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="attack($index, creature)">
               <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
           </button>
         </td>
