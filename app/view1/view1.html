@@ -217,12 +217,12 @@
           <td class="centered">{{$ctrl.amountOf(creature)}}</td>
           <td class="centered">{{creature.challenge}}</td>
           <td class="centered">
-            <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="duplicate($index)">
+            <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="$ctrl.duplicate($index, creature)">
               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
             </button>
           </td>
           <td class="centered">
-            <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="duplicate($index)">
+            <button ng-if='creature.tag != "hide"' type="button" class="margin btn btn-link btn-lg" ng-click="$ctrl.duplicateOnce($index)">
               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
             </button>
           </td>
@@ -261,6 +261,31 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-success" ng-click="$ctrl.attack()" ng-disabled="!$ctrl.attackEnabled()">Attack</button>
+    <button type="button" class="btn btn-warning" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
+
+</script>
+
+<script type="text/ng-template" id="duplicate-create-modal.html">
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>
+    <h4 class="modal-title">Duplicate {{$ctrl.creature.name}}</h4>
+  </div>
+
+  <div class="modal-body">
+    Amount now: {{$ctrl.creature.amount}}<br>
+    Amount after duplication: {{$ctrl.creature.amount + $ctrl.amountAfterDuplication()}}
+    <div class="input-group">
+      <span class="input-group-addon">Creature</span>
+        <input type="text" class="form-control" placeholder="How many additional copies you would like to add" ng-model="$ctrl.numberToAdd">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="$ctrl.duplicate()" ng-disabled="!$ctrl.canDuplicate()">Duplicate</button>
     <button type="button" class="btn btn-warning" ng-click="$ctrl.cancel()">Cancel</button>
   </div>
 

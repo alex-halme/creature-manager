@@ -51,6 +51,9 @@ var app = angular.module('myApp.view1', ['ngRoute', 'ui.sortable', 'angucomplete
         resolve: {
           gameCreatures: function () {
             return $scope.gameCreatures;
+          },
+          $uibModal: function () {
+            return $uibModal;
           }
         }
       });
@@ -256,13 +259,33 @@ angular.module('myApp.view1').controller('InfoDialogController', function ($uibM
 
 });
 
-angular.module('myApp.view1').controller('NewCreatureDialogController', function ($uibModalInstance, gameCreatures) {
+angular.module('myApp.view1').controller('NewCreatureDialogController', function ($uibModalInstance, gameCreatures, $uibModal) {
   var $ctrl = this;
   $ctrl.creatures = [];
   $ctrl.gameCreatures = gameCreatures;
 
-  $ctrl.duplicate = function (index) {
+  $ctrl.duplicate = function (index, creature) {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'duplicate-create-modal.html',
+      controller: 'DuplicateDialogController',
+      controllerAs: '$ctrl',
+      resolve: {
+        index: function () {
+          return index;
+        },
+        creature: function () {
+          return creature;
+        }
+      }
+    });
 
+    modalInstance.result.then(function (howMany) {
+      creature.amount += howMany;
+      console.log('Duplication succeeded');
+    }, function () {
+      console.log('Duplication cancelled');
+    });
   }
 
   $ctrl.canCreatureBeAdded = function () {
@@ -302,6 +325,10 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
     }
   }
 
+  $ctrl.duplicateOnce = function (index) {
+    $ctrl.creatures[index].amount += 1;
+  }
+
   $ctrl.amountOf = function (creature) {
     for (var i = 0; i < $ctrl.creatures.length; i++) {
       if ($ctrl.creatures[i].name === creature.name) {
@@ -322,7 +349,6 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
     var finalCreatures = angular.copy($ctrl.creatures);
     for (var i = 0; i < $ctrl.creatures.length; i++) {
       for (var x = 0; x < $ctrl.creatures[i].amount - 1; x++) {
-        console.log($ctrl.creatures[i]);
         finalCreatures.push($ctrl.creatures[i]);
       }
       delete finalCreatures[i].amount;
@@ -333,11 +359,39 @@ angular.module('myApp.view1').controller('NewCreatureDialogController', function
       var textB = b.name.toUpperCase();
       return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
     });
-    
+
     $uibModalInstance.close(finalCreatures);
   }
 
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
+});
+
+angular.module('myApp.view1').controller('DuplicateDialogController', function ($uibModalInstance, index, creature) {
+  var $ctrl = this;
+  $ctrl.index = index;
+  $ctrl.creature = creature;
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+  $ctrl.canDuplicate = function () {
+    if ($ctrl.numberToAdd > 0 && (creature.amount + Number($ctrl.numberToAdd)) < 101) {
+      return true;
+    } 
+    return false;
+  }
+
+  $ctrl.duplicate = function () {
+    $uibModalInstance.close(Number($ctrl.numberToAdd));
+  }
+
+  $ctrl.amountAfterDuplication = function () {
+    if (isNaN($ctrl.numberToAdd)) {
+      return creature.amount - 1;
+    }
+    return Number($ctrl.numberToAdd) + creature.amount - 1;
+  }
 });
