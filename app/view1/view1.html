@@ -5,7 +5,7 @@
 </div>
 
 <div>
-  <table ng-if="creatures.length > 0">
+  <table ng-if="creatures.length > 0" id="creatureTable">
     <thead>
       <tr>
         <th>Name</th>
@@ -156,7 +156,6 @@
 
 </script>
 
-<!-- Make more awesome later -->
 <script type="text/ng-template" id="info-modal.html">
 
   <div class="modal-header">
@@ -165,7 +164,7 @@
   </div>
 
   <div class="modal-body">
-    <h4>{{$ctrl.creature.name}}</h4>
+    <h4 style="margin-bottom: 0px">{{$ctrl.creature.name}}</h4>
     <i>{{$ctrl.creature.description}}, {{$ctrl.creature.alignment}}</i>
     <hr/>
     <b>Armor Class</b> {{$ctrl.creature.AC}} ({{$ctrl.creature.ACEquipment}})<br/>
@@ -194,6 +193,22 @@
         </tr>
       </tbody>
     </table>
+    <hr/>
+    <b>Skills</b> {{$ctrl.creature.skills}}<br/>
+    <b>Senses</b> {{$ctrl.creature.senses}}<br/>
+    <b>Languages</b> {{$ctrl.creatures.languages}}<br/>
+    <b>Challenge</b> {{$ctrl.creature.challenge}} ({{$ctrl.creature.xp}} XP)<br/>
+    <hr/>
+    <div style="margin-top: 10px; margin-bottom: 10px;" ng-repeat="ability in $ctrl.creature.abilities">
+        <i><b>{{ability.title}}</b></i> {{ability.content}}<br/>
+    </div>
+    <h4>Actions</h4>
+    <hr/>
+    <div ng-repeat="action in $ctrl.creature.actions">
+     <i><b>{{action.title}}</b></i> <i> {{action.type}}: </i> {{action.descr}}
+      <br/><i>Hit: </i>{{action.damage}}
+    </div>
+
   </div>
 
   <div class="modal-footer">
@@ -316,7 +331,11 @@
 
 <style>
 
-  h4 {
+  .ng-binding {
+    margin-bottom: 5px;
+  }
+
+  h3, h4 {
     margin-top: 0px;
     margin-bottom: 0px;
   }
